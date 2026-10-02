@@ -4,4 +4,17 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - .:/usr/share/nginx/html:ro
+      - ./src:/usr/share/nginx/html:ro
+
+  tailwind:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: dockerfile
+    working_dir: /app
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: sh -lc "npm install && npm run dev"
+    stdin_open: true
+    tty: true
